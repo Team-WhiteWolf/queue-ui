@@ -59,7 +59,6 @@ http.createServer(function (req, res) {
 function getvalue (name,lines){
     return lines.find(function(el){return el.startsWith(name)}).split('=')[1];
 }
-
 /*
 asbService.receiveQueueMessage('queueui-send', { isPeekLock: true }, function(error, lockedMessage){
     if(!error){
