@@ -5,6 +5,11 @@
   "scripts": {
     "start": "node server"
   },
+  "dependencies": {
+    "azure": "^2.2.1-preview",
+    "mysql2": "^1.5.3",
+    "uuid": "^3.2.1"
+  },
   "license": "MIT",
   "engines": {
     "node": "~0.10.0 || ~4.2.0"
