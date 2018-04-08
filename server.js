@@ -9,6 +9,8 @@ var html = fs.readFileSync("HTMLPage.html").toString();
 html = html.replace("<style></style>","<style>"+fs.readFileSync("style.css")+"</style>");
 var output = "<p>none</p>";
 var trackingID = "0"
+var recived;
+
 
 http.createServer(function (req, res) {
     output = "";
@@ -44,26 +46,14 @@ http.createServer(function (req, res) {
             }
         });
 
-        asbService.receiveQueueMessage('queueui-send', { isPeekLock: true }, function(error, lockedMessage){
-            if(!error){
-                output += "<h2>Incoming Message</h2><br><p>" + lockedMessage.toString() + "</p>";
-                asbService.deleteMessage(lockedMessage, function (deleteError){
-                    if(!deleteError){
-                        // Message deleted
-                    }
-                });
-                
-            }
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(html.replace("<output>",output));
-        });
+        
     }
-
+    output += "<h2>Incoming Message</h2><br><p>" + recived + "</p>";
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(html.replace("<output>",output));
     
+    trackingID++;
     
-    trackingID +1;
 }).listen(process.env.PORT || 8090);
 
 function getvalue (name,lines){
@@ -71,20 +61,16 @@ function getvalue (name,lines){
 }
 
 /*
-asbService.sendQueueMessage('myqueue', message, function(error){
+asbService.receiveQueueMessage('queueui-send', { isPeekLock: true }, function(error, lockedMessage){
     if(!error){
-        // message sent
-    }
-});
-
-asbService.receiveQueueMessage('myqueue', { isPeekLock: true }, function(error, lockedMessage){
-    if(!error){
-        // Message received and locked
-        serviceBusService.deleteMessage(lockedMessage, function (deleteError){
+        recived = lockedMessage.body.toString();
+        asbService.deleteMessage(lockedMessage, function (deleteError){
             if(!deleteError){
                 // Message deleted
             }
         });
+        
     }
+    
 });
 */
